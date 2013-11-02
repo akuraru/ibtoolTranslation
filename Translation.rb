@@ -20,14 +20,14 @@ end
 
 def fun(lproj, fileName)
   addtionData = []
-  File.open("#{lproj}/#{fileName}.strings", "r:UTF-16") {|file|
+  File.open("#{lproj}/#{fileName}.strings",  :mode => "rb", :encoding => "UTF-16LE") {|file|
     data = file.read.toutf8.scan(/".*" *= *"(.*)";\n/).uniq
     addtionData = data.flatten
   }
   transText = ""
   baseData = []
   begin
-    File.open("#{lproj}/Translation.strings", "r:UTF-16") {|f|
+    File.open("#{lproj}/Translation.strings",  :mode => "rb", :encoding => "UTF-16LE") {|f|
       transText = f.read.toutf8
       data = transText.scan(/"(.*)"\s*=\s*".*";?\s*\n/)
       data = data + transText.scan(/"(.*)";?\s*\n/)
@@ -42,11 +42,11 @@ end
 
 def fun2(lproj, fileName)
   translationData = []
-  File.open("#{lproj}/#{fileName}.strings", "r:UTF-16") {|file|
+  File.open("#{lproj}/#{fileName}.strings",  :mode => "rb", :encoding => "UTF-16LE") {|file|
     translationData = file.read.toutf8.scan(/"(.*)" *= *"(.*)";\n/).uniq
   }
   baseData = []
-  File.open("#{lproj}/Translation.strings", "r:UTF-16") {|f|
+  File.open("#{lproj}/Translation.strings", :mode => "rb", :encoding => "UTF-16LE") {|f|
     baseData = f.read.toutf8.scan(/"(.*)"\s*=\s*"(.*)";?\s*\n/).inject({}){ |acc, item|
   acc[item[0]] = item[1]
       acc
