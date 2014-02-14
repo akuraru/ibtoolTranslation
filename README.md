@@ -7,6 +7,22 @@ The typing the same command again to be translated.
 
 ## Usage
 
+1) Generate "Translation.strings" file.
+
+``` sh
+ruby Translation.rb path/to/your_storyboard_direcotry/ <translate from lang> <translate to lang>
+```
+
+2) Edit "Translation.strings" file.
+
+``` 
+"pre-text" = "post-text";
+"Date" = "日時";
+"Delete" = "削除";
+```
+
+3) Again run (1) command.
+
 ``` sh
 ruby Translation.rb path/to/your_storyboard_direcotry/ <translate from lang> <translate to lang>
 ```
