@@ -10,7 +10,7 @@ The typing the same command again to be translated.
 1) Generate "Translation.strings" file.
 
 ``` sh
-ruby Translation.rb path/to/your_storyboard_direcotry/ <translate from lang> <translate to lang>
+ruby Translation.rb path/to/your_storyboard_directory/ <translate from lang> <translate to lang>
 ```
 
 2) Edit "Translation.strings" file.
@@ -24,7 +24,7 @@ ruby Translation.rb path/to/your_storyboard_direcotry/ <translate from lang> <tr
 3) Again run (1) command.
 
 ``` sh
-ruby Translation.rb path/to/your_storyboard_direcotry/ <translate from lang> <translate to lang>
+ruby Translation.rb path/to/your_storyboard_directory/ <translate from lang> <translate to lang>
 ```
 
 ### Example
