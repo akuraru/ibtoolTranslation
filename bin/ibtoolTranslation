@@ -11,12 +11,15 @@ module IbtoolTranslation
     class_option :version, :type => :boolean, :desc => 'version'
     default_task :execute
 
+    option :dir, :type => :string, :aliases => '-d'
+    option :from, :type => :string , :aliases => '-f'
+    option :to, :type => :array, :aliases => '-t'
     desc "execute", "show dialog with title, message"
     def execute
       if options[:version]
         self.version
       else
-        IbtoolTranslation::Core.hi
+        IbtoolTranslation::Core.new.func(options[:dir], options[:from], options[:to])
       end
     end
 
