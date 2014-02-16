@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+
+require "ibtoolTranslation/version"
+require "ibtoolTranslation"
+require "thor"
+
+module IbtoolTranslation
+  #= IbtoolTranslation CLI
+  class CLI < Thor
+    class_option :help, :type => :boolean, :aliases => '-h', :desc => 'help message.'
+    class_option :version, :type => :boolean, :desc => 'version'
+    default_task :execute
+
+    desc "execute", "show dialog with title, message"
+    def execute
+      IbtoolTranslation::Core.hi
+    end
+
+    desc "init", "generate Denreifile"
+    def init
+      ibtool_translation = IbtoolTranslation::Core.new
+      ibtool_translation.init
+    end
+
+    desc "version", "version"
+    def version
+      p IbtoolTranslation::VERSION
+    end
+  end
+end
+
+IbtoolTranslation::CLI.start(ARGV)
