@@ -13,13 +13,11 @@ module IbtoolTranslation
 
     desc "execute", "show dialog with title, message"
     def execute
-      IbtoolTranslation::Core.hi
-    end
-
-    desc "init", "generate Denreifile"
-    def init
-      ibtool_translation = IbtoolTranslation::Core.new
-      ibtool_translation.init
+      if options[:version]
+        self.version
+      else
+        IbtoolTranslation::Core.hi
+      end
     end
 
     desc "version", "version"
