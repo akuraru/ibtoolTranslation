@@ -7,25 +7,22 @@ require "thor"
 module IbtoolTranslation
   #= IbtoolTranslation CLI
   class CLI < Thor
-    class_option :help, :type => :boolean, :aliases => '-h', :desc => 'help message.'
-    class_option :version, :type => :boolean, :desc => 'version'
-    default_task :execute
+    default_task :update
 
-    option :dir, :type => :string, :aliases => '-d'
-    option :from, :type => :string , :aliases => '-f'
-    option :to, :type => :array, :aliases => '-t'
-    desc "execute", "show dialog with title, message"
-    def execute
-      if options[:version]
-        self.version
-      else
-        IbtoolTranslation::Core.new.func(options[:dir], options[:from], options[:to])
-      end
+    option :dir, :type => :string, :aliases => '-d',:required => true, :desc => 'directory of the reference'
+    option :from, :type => :string , :aliases => '-f',:required => true, :desc => 'storyboard of the reference'
+    option :to, :type => :array, :aliases => '-t',:required => true, :desc => 'storyboards of the result'
+    desc "update", "update storyboard"
+    def update
+      IbtoolTranslation::Core.new.update(options[:dir], options[:from], options[:to])
     end
 
-    desc "version", "version"
-    def version
-      p IbtoolTranslation::VERSION
+    option :dir, :type => :string, :aliases => '-d',:required => true, :desc => 'directory of the reference'
+    option :from, :type => :string , :aliases => '-f',:required => true, :desc => 'storyboard of the reference'
+    option :to, :type => :array, :aliases => '-t',:required => true, :desc => 'storyboards of the result'
+    desc "update", "create Translation.strings"
+    def create
+      IbtoolTranslation::Core.new.update(options[:dir], options[:from], options[:to])
     end
   end
 end

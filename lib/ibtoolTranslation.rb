@@ -4,14 +4,12 @@ require 'fileutils'
 
 module IbtoolTranslation
   class Core
-  	def self.hi
-  	  puts "Hello world!"
-  	end
-
-		def function()
-			dirName = ARGV[0]
-			sourceDir = dirName + ARGV[1] + ".lproj"
-			lps = ARGV[2..-1]
+  	def create(dirName, sourceDir, lps)
+			self.func(dirName, dirName + sourceDir + ".lproj", lps)
+		end
+		def update(dirName, sourceDir, lps)
+			self.func(dirName, dirName + sourceDir + ".lproj", lps)
+			self.func2(dirName, dirName + sourceDir + ".lproj", lps)
 		end
   	def func(dirName, sourceDir, lps)
 			storyboards = self.storyboards sourceDir
@@ -27,11 +25,21 @@ module IbtoolTranslation
 				  addtionData = self.addtionData("#{lproj}/#{fileName}.strings")
 				  aData = addtionData.select{|f| baseData.include?(f) == false}
 				  transText = transText + aData.map{|f| "\"#{f}\";\n"}.join("")
+			    File::delete("#{lproj}/#{fileName}.strings")
 			  }
-		  	self.writeTransText("#{lproj}/Translation.strings", transText)
+			  self.writeTransText("#{lproj}/Translation.strings", transText)
+			}
+		end
+  	def func2(dirName, sourceDir, lps)
+			storyboards = self.storyboards sourceDir
+
+			lps.each {|lp|
+			  lproj = dirName + lp + ".lproj"
+		  	transText = self.transText("#{lproj}/Translation.strings")		  	
 			  storyboards.each { |fileName|
 			    self.fun2(lproj, fileName, transText)
 			    `ibtool --write #{lproj}/#{fileName}.storyboard -d #{lproj}/#{fileName}.strings  #{sourceDir}/#{fileName}.storyboard`
+			    File::delete("#{lproj}/#{fileName}.strings")
 			    puts fileName
 			  }
 			}

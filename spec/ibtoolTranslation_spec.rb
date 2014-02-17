@@ -19,7 +19,7 @@ describe IbtoolTranslation::Core, "load" do
 		before do
 			@i = IbtoolTranslation::Core.new
 			@i.deleteDir "./storyboards/ja.lproj/"
-			@i.func("./storyboards/", "./storyboards/en.lproj/", ["ja"])
+			@i.update("./storyboards/", "en", ["ja"])
 		end
 		it "ja transText is " do
 			IbtoolTranslation::Core.new.transText("./storyboards/ja.lproj/Translation.strings").should == baseDataText
