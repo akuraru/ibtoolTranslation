@@ -22,7 +22,16 @@ describe IbtoolTranslation::Core, "load" do
 			@i.update("./storyboards/", "en", ["ja"])
 		end
 		it "ja transText is " do
-			IbtoolTranslation::Core.new.transText("./storyboards/ja.lproj/Translation.strings").should == baseDataText
+			@i.transText("./storyboards/ja.lproj/Translation.strings").should == baseDataText
+		end
+	end
+	context "update" do 
+		before do
+			@i = IbtoolTranslation::Core.new
+			@i.update("./storyboards/", "en", ["dd"])
+		end
+		it "storyboard not same" do
+			@i.transText("./storyboards/en.lproj/Main.storyboard").should_not == @i.transText("./storyboards/dd.lproj/Main.storyboard")
 		end
 	end
 	it "storyboards" do
