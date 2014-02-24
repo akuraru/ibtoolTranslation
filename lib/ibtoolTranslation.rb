@@ -2,24 +2,33 @@ require "ibtoolTranslation/version"
 require 'kconv'
 require 'fileutils'
 
+$debug = false
+$/
+
 module IbtoolTranslation
   class Core
   	def create(dirName, sourceDir, lps)
-			self.func(dirName, dirName + sourceDir + ".lproj", lps)
-			self.deleteStringsFile(dirName, dirName + sourceDir + ".lproj", lps)
+  		lprojs = lps.map {|lp| dirName + lp + ".lproj"}
+  		self.makeDirectory(lprojs)
+			self.createTranslation(sourceLproj, lprojs)
+			self.deleteStringsFile(sourceLproj, lprojs)
 		end
 		def update(dirName, sourceDir, lps)
-			self.func(dirName, dirName + sourceDir + ".lproj", lps)
-			self.func2(dirName, dirName + sourceDir + ".lproj", lps)
-			self.deleteStringsFile(dirName, dirName + sourceDir + ".lproj", lps)
+  		lprojs = lps.map {|lp| dirName + lp + ".lproj"}
+  		sourceLproj = dirName + sourceDir + ".lproj"
+
+  		self.makeDirectory(lprojs)
+			self.createTranslation(sourceLproj, lprojs)
+			self.translateStoryboards(sourceLproj, lprojs)
+			self.deleteStringsFile(sourceLproj, lprojs)
 		end
-  	def func(dirName, sourceDir, lps)
+		def makeDirectory(lprojs) 
+			lprojs.each {|lproj| FileUtils.mkdir_p(lproj) }
+		end
+  	def createTranslation(sourceDir, lprojs)
 			storyboards = self.storyboards sourceDir
 
-			lps.each {|lp|
-			  lproj = dirName + lp + ".lproj"
-			  FileUtils.mkdir_p(lproj)
-		  	
+			lprojs.each {|lproj|
 		  	transText = self.transText("#{lproj}/Translation.strings")
 		  	baseData = self.baseDataForTransText(transText)
 			  storyboards.each { |fileName|
@@ -31,31 +40,29 @@ module IbtoolTranslation
 			  self.writeTransText("#{lproj}/Translation.strings", transText)
 			}
 		end
-  	def func2(dirName, sourceDir, lps)
+  	def translateStoryboards(sourceDir, lprojs)
 			storyboards = self.storyboards sourceDir
 
-			lps.each {|lp|
-			  lproj = dirName + lp + ".lproj"
+			lprojs.each {|lproj|
 		  	transText = self.transText("#{lproj}/Translation.strings")		  	
 			  storyboards.each { |fileName|
-			    self.fun2(lproj, fileName, transText)
+			    self.translateStringsFile(lproj, fileName, transText)
 			    `ibtool --write #{lproj}/#{fileName}.storyboard -d #{lproj}/#{fileName}.strings  #{sourceDir}/#{fileName}.storyboard`
-			    puts fileName
+			    puts fileName unless $debug
 			  }
 			}
 		end
-		def deleteStringsFile(dirName, sourceDir, lps)
+		def deleteStringsFile(sourceDir, lprojs)
 			storyboards = self.storyboards sourceDir
 
-			lps.each {|lp|	
-			  lproj = dirName + lp + ".lproj"
+			lprojs.each {|lproj|
 			  storyboards.each { |fileName|
 			    File::delete("#{lproj}/#{fileName}.strings")
 			  }
 			}
 		end
 
-		def fun2(lproj, fileName, transText)
+		def translateStringsFile(lproj, fileName, transText)
 		  translationData = self.translationData("#{lproj}/#{fileName}.strings")
 		  translationDict = self.translationDict(transText)
 

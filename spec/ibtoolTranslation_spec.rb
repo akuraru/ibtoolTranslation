@@ -1,5 +1,7 @@
 require './lib/IbtoolTranslation'
 
+$debug = true
+
 describe IbtoolTranslation::Core, "load" do
 	baseDataArray = ["B", "hoge\\npiyo\\nfuga", "to D", "numberOfLines : 2", "D", "NumberOfLines", "Root View Controller", "C", "numberOfLines : 1", "Beyond Segue", "numberOfLines : 0"]
 	baseDataText = '"B";
