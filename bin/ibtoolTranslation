@@ -10,7 +10,7 @@ module IbtoolTranslation
     default_task :update
 
     option :dir, :type => :string, :aliases => '-d',:required => true, :desc => 'directory of the reference'
-    option :string :type => :boolean :aliases => '-s' :default => false :desc => 'use localizable strings'
+    option :string, :type => :boolean, :aliases => '-s', :default => false, :desc => 'use localizable strings'
     option :from, :type => :string , :aliases => '-f',:required => true, :desc => 'storyboard of the reference'
     option :to, :type => :array, :aliases => '-t',:required => true, :desc => 'storyboards of the result'
     desc "update", "update storyboard"
@@ -19,12 +19,16 @@ module IbtoolTranslation
     end
 
     option :dir, :type => :string, :aliases => '-d',:required => true, :desc => 'directory of the reference'
-    option :string :type => :boolean :aliases => '-s' :default => false :desc => 'use localizable strings'
+    option :string, :type => :boolean, :aliases => '-s', :default => false, :desc => 'use localizable strings'
     option :from, :type => :string , :aliases => '-f',:required => true, :desc => 'storyboard of the reference'
     option :to, :type => :array, :aliases => '-t',:required => true, :desc => 'storyboards of the result'
     desc "create", "create Translation.strings"
     def create
       IbtoolTranslation::Core.new.create(options[:dir], options[:from], options[:to], option[:string])
+    end
+    desc "version", "version"
+    def version
+      p IbtoolTranslation::VERSION
     end
   end
 end
