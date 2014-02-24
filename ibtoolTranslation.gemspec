@@ -8,8 +8,10 @@ Gem::Specification.new do |spec|
   spec.version       = IbtoolTranslation::VERSION
   spec.authors       = ["akuraru"]
   spec.email         = ["akuraru@gmail.com"]
-  spec.summary       = %q{Write a short summary. Required.}
-  spec.description   = %q{Write a longer description. Optional.}
+  spec.summary       = %q{This is the script that can be used to internationalize the storyboard.}
+  spec.description   = %q{This is the script that can be used to internationalize the storyboard.
+    
+You edit the Translation.strings that is generated when hit the following command. The typing the same command again to be translated.}
   spec.homepage      = ""
   spec.license       = "MIT"
 

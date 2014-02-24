@@ -1,4 +1,5 @@
 require './lib/IbtoolTranslation'
+require 'fileutils'
 
 $debug = true
 
@@ -16,24 +17,48 @@ describe IbtoolTranslation::Core, "load" do
 "Beyond Segue";
 "numberOfLines : 0";
 '
-
-	context "func" do
+	context "reset and update ja" do 
 		before do
 			@i = IbtoolTranslation::Core.new
 			@i.deleteDir "./storyboards/ja.lproj/"
-			@i.update("./storyboards/", "en", ["ja"])
+			@i.update("./storyboards/", "en", ["ja"], false)
 		end
 		it "ja transText is " do
 			@i.transText("./storyboards/ja.lproj/Translation.strings").should == baseDataText
 		end
+		it "Main.strings don't exist" do
+			FileTest.exist?("./storyboards/ja.lproj/Main.strings").should == false
+		end
+		it "storyboard same" do
+			@i.transText("./storyboards/en.lproj/Main.storyboard").should == @i.transText("./storyboards/ja.lproj/Main.storyboard")
+		end
 	end
-	context "update" do 
+	context "update dd" do 
 		before do
 			@i = IbtoolTranslation::Core.new
-			@i.update("./storyboards/", "en", ["dd"])
+			@i.update("./storyboards/", "en", ["dd"], false)
+		end
+		it "Main.strings don't exist" do
+			FileTest.exist?("./storyboards/ja.lproj/Main.strings").should == false
 		end
 		it "storyboard not same" do
 			@i.transText("./storyboards/en.lproj/Main.storyboard").should_not == @i.transText("./storyboards/dd.lproj/Main.storyboard")
+		end
+	end
+	context "create" do
+		before do
+			@i = IbtoolTranslation::Core.new
+			@i.deleteDir "./storyboards/ja.lproj/"
+			@i.create("./storyboards/", "en", ["ja"], false)
+		end
+		it "ja transText is " do
+			@i.transText("./storyboards/ja.lproj/Translation.strings").should == baseDataText
+		end
+		it "Main.strings don't exist" do
+			FileTest.exist?("./storyboards/ja.lproj/Main.strings").should == false
+		end
+		it "Main.storyboard don't exist" do
+			FileTest.exist?("./storyboards/ja.lproj/Main.storyboard").should == false
 		end
 	end
 	it "storyboards" do

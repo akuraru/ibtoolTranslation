@@ -7,27 +7,34 @@ $/
 
 module IbtoolTranslation
   class Core
-  	def create(dirName, sourceDir, lps)
-  		lprojs = lps.map {|lp| dirName + lp + ".lproj"}
-  		self.makeDirectory(lprojs)
-			self.createTranslation(sourceLproj, lprojs)
-			self.deleteStringsFile(sourceLproj, lprojs)
-		end
-		def update(dirName, sourceDir, lps)
+  	def create(dirName, sourceDir, lps, string)
   		lprojs = lps.map {|lp| dirName + lp + ".lproj"}
   		sourceLproj = dirName + sourceDir + ".lproj"
+			storyboards = self.storyboards sourceLproj
 
   		self.makeDirectory(lprojs)
-			self.createTranslation(sourceLproj, lprojs)
-			self.translateStoryboards(sourceLproj, lprojs)
-			self.deleteStringsFile(sourceLproj, lprojs)
+			self.createTranslation(sourceLproj, lprojs, storyboards)
+			unless (string)
+				self.deleteStringsFile(sourceLproj, lprojs)
+			end
+		end
+		def update(dirName, sourceDir, lps, string)
+  		lprojs = lps.map {|lp| dirName + lp + ".lproj"}
+  		sourceLproj = dirName + sourceDir + ".lproj"
+			storyboards = self.storyboards sourceLproj
+
+  		self.makeDirectory(lprojs)
+			self.createTranslation(sourceLproj, lprojs, storyboards)
+			self.translateStrings(sourceLproj, lprojs, storyboards)
+			unless (string)
+				self.translateStoryboards(sourceLproj, lprojs, storyboards)
+				self.deleteStringsFile(sourceLproj, lprojs)
+			end
 		end
 		def makeDirectory(lprojs) 
 			lprojs.each {|lproj| FileUtils.mkdir_p(lproj) }
 		end
-  	def createTranslation(sourceDir, lprojs)
-			storyboards = self.storyboards sourceDir
-
+  	def createTranslation(sourceDir, lprojs, storyboards)
 			lprojs.each {|lproj|
 		  	transText = self.transText("#{lproj}/Translation.strings")
 		  	baseData = self.baseDataForTransText(transText)
@@ -40,15 +47,19 @@ module IbtoolTranslation
 			  self.writeTransText("#{lproj}/Translation.strings", transText)
 			}
 		end
-  	def translateStoryboards(sourceDir, lprojs)
-			storyboards = self.storyboards sourceDir
-
+		def translateStrings(sourceDir, lprojs, storyboards)
 			lprojs.each {|lproj|
 		  	transText = self.transText("#{lproj}/Translation.strings")		  	
 			  storyboards.each { |fileName|
 			    self.translateStringsFile(lproj, fileName, transText)
-			    `ibtool --write #{lproj}/#{fileName}.storyboard -d #{lproj}/#{fileName}.strings  #{sourceDir}/#{fileName}.storyboard`
 			    puts fileName unless $debug
+			  }
+			}
+		end
+  	def translateStoryboards(sourceDir, lprojs, storyboards)
+			lprojs.each {|lproj|	  	
+			  storyboards.each { |fileName|
+			    `ibtool --write #{lproj}/#{fileName}.storyboard -d #{lproj}/#{fileName}.strings  #{sourceDir}/#{fileName}.storyboard`
 			  }
 			}
 		end

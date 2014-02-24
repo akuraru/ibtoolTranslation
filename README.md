@@ -8,7 +8,7 @@ You edit the Translation.strings that is generated when hit the following comman
 
 Add this line to your application's Gemfile:
 
-    gem 'ibtool_translation'
+    gem 'ibtoolTranslation'
 
 And then execute:
 
@@ -16,14 +16,14 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install ibtool_translation
+    $ gem install ibtoolTranslation
 
 ## Usage
 
 1) Generate "Translation.strings" file.
 
 ``` sh
-ruby Translation.rb path/to/your_storyboard_directory/ <translate from lang> <translate to lang>
+ibtoolTranslation create -d path/to/your_storyboard_directory/ -f <translate from lang> -t <translate to langs>
 ```
 
 2) Edit "Translation.strings" file.
@@ -37,17 +37,8 @@ ruby Translation.rb path/to/your_storyboard_directory/ <translate from lang> <tr
 3) Again run (1) command.
 
 ``` sh
-ruby Translation.rb path/to/your_storyboard_directory/ <translate from lang> <translate to lang>
+ibtoolTranslation update -d path/to/your_storyboard_directory/ -f <translate from lang> -t <translate to langs>
 ```
-
-### Example
-
-e.g.) Translate storyboard files from English to Japanese.
-
-``` sh
-ruby Translation.rb ExampleProject/storyboard/ en ja
-```
-
 
 ## Contributing
 
