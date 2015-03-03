@@ -12,6 +12,9 @@ module IbtoolTranslation
   		sourceLproj = dirName + sourceDir + ".lproj"
 			storyboards = self.storyboards sourceLproj
 
+			if (string)
+				self.deleteStringsFile(sourceLproj, lprojs)
+			end
   		self.makeDirectory(lprojs)
 			self.createTranslation(sourceLproj, lprojs, storyboards)
 			unless (string)
@@ -23,6 +26,9 @@ module IbtoolTranslation
   		sourceLproj = dirName + sourceDir + ".lproj"
 			storyboards = self.storyboards sourceLproj
 
+			if (string)
+				self.deleteStringsFile(sourceLproj, lprojs)
+			end
   		self.makeDirectory(lprojs)
 			self.createTranslation(sourceLproj, lprojs, storyboards)
 			self.translateStrings(sourceLproj, lprojs, storyboards)
