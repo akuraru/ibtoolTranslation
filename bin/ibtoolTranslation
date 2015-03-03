@@ -15,7 +15,7 @@ module IbtoolTranslation
     option :to, :type => :array, :aliases => '-t',:required => true, :desc => 'storyboards of the result'
     desc "update", "update storyboard"
     def update
-      IbtoolTranslation::Core.new.update(options[:dir], options[:from], options[:to], option[:string])
+      IbtoolTranslation::Core.new.update(options[:dir], options[:from], options[:to], options[:string])
     end
 
     option :dir, :type => :string, :aliases => '-d',:required => true, :desc => 'directory of the reference'
@@ -24,7 +24,7 @@ module IbtoolTranslation
     option :to, :type => :array, :aliases => '-t',:required => true, :desc => 'storyboards of the result'
     desc "create", "create Translation.strings"
     def create
-      IbtoolTranslation::Core.new.create(options[:dir], options[:from], options[:to], option[:string])
+      IbtoolTranslation::Core.new.create(options[:dir], options[:from], options[:to], options[:string])
     end
     desc "version", "version"
     def version
